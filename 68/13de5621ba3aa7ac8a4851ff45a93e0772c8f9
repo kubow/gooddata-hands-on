@@ -1,0 +1,33 @@
+index.html
+  s_13fc048c45873e::t_72c471a396366b 1-10,25-72
+  s_56d94203e78cc3::t_62c33a872a8770 73-80
+  s_13fc048c45873e::t_473298aadfb134 11-14
+  s_13fc048c45873e::t_c915e204eca767 15-24
+README.md
+  s_13fc048c45873e::t_9b771e7e5b030d 9
+  s_13fc048c45873e::t_dca98b876d2950 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6813de5621ba3aa7ac8a4851ff45a93e0772c8f9",
+  "prompts": {},
+  "sessions": {
+    "s_13fc048c45873e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0fb52-2904-7b11-a762-94e838e2cd56",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "kubow <kube.kubow@gmail.com>"
+    },
+    "s_56d94203e78cc3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10b39-86c0-76e3-8e09-681c42d2f5a4",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "kubow <kube.kubow@gmail.com>"
+    }
+  }
+}
