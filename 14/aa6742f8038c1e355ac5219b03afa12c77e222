@@ -1,0 +1,30 @@
+content.json
+  s_56d94203e78cc3::t_d434924b611a37 1-50
+README.md
+  s_56d94203e78cc3::t_cbcad92c2c65ae 7,9-17
+index.html
+  s_56d94203e78cc3::t_62c33a872a8770 81-114
+  s_56d94203e78cc3::t_ff132f4df8083f 78-80
+  s_56d94203e78cc3::t_2e062e8f231a48 73-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "14aa6742f8038c1e355ac5219b03afa12c77e222",
+  "prompts": {},
+  "humans": {
+    "h_0907ec034f4a17": {
+      "author": "kubow <kube.kubow@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_56d94203e78cc3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10b39-86c0-76e3-8e09-681c42d2f5a4",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "kubow <kube.kubow@gmail.com>"
+    }
+  }
+}
