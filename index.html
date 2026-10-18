@@ -70,11 +70,48 @@
 </main>
 <div class="controls"><button id="prev">←</button><span class="page" id="page">1 / 9</span><button id="next">→</button></div>
 <script>
-const slides=[...document.querySelectorAll(".slide")],page=document.getElementById("page"),progress=document.getElementById("progress");let n=0;
-const stages=[-1,-1,0,1,2,3,4,5,-1],labels=[["INGEST","source systems"],["DB","warehouse + schema"],["ANALYTICS","dbt + GoodData"],["AI","ask + explain"],["DELIVERY","dashboard + app"],["END USERS","decide + act"]];
-slides.forEach((s,i)=>{s.querySelectorAll(".map").forEach(x=>x.classList.add("detail-map"));const rail=document.createElement("div");rail.className="pipeline";rail.innerHTML=labels.map((x,j)=>`${j?'<span class="pa">→</span>':''}<div class="p ${stages[i]===j?'active':''}"><b>${x[0]}</b>${x[1]}</div>`).join("");const ey=s.querySelector(".eyebrow");ey.insertAdjacentElement("afterend",rail)});
-function show(x){n=(x+slides.length)%slides.length;slides.forEach((s,i)=>s.classList.toggle("active",i===n));page.textContent=(n+1)+" / "+slides.length;progress.style.width=((n+1)/slides.length*100)+"%";location.hash=n+1}
-document.getElementById("next").onclick=()=>show(n+1);document.getElementById("prev").onclick=()=>show(n-1);document.onkeydown=e=>{if(["ArrowRight"," ","PageDown"].includes(e.key))show(n+1);if(["ArrowLeft","PageUp"].includes(e.key))show(n-1);if(e.key==="Home")show(0);if(e.key==="End")show(slides.length-1)};let h=parseInt(location.hash.slice(1));show(h>0&&h<=slides.length?h-1:0);
+const page=document.getElementById("page"),progress=document.getElementById("progress"),main=document.querySelector("main");
+let slides=[],n=0;
+
+async function loadDeck(){
+  const outline=await fetch("content.json").then(response=>response.json());
+  document.title=outline.title;
+  main.innerHTML=outline.slides.map(slide=>`<section class="slide${slide.dark?" dark":""}">${slide.html}</section>`).join("");
+  slides=[...document.querySelectorAll(".slide")];
+  outline.slides.forEach((slide,i)=>{
+    const rail=document.createElement("div");
+    rail.className="pipeline";
+    rail.innerHTML=outline.stages.map((stage,j)=>`${j?'<span class="pa">→</span>':''}<div class="p ${slide.stage===j?'active':''}"><b>${stage[0]}</b>${stage[1]}</div>`).join("");
+    const eyebrow=slides[i].querySelector(".eyebrow");
+    if(eyebrow) eyebrow.insertAdjacentElement("afterend",rail);
+    const pageLabel=slides[i].querySelector("[data-page]");
+    if(pageLabel) pageLabel.textContent=`${String(i+1).padStart(2,"0")} / ${slides.length}`;
+  });
+  const hash=parseInt(location.hash.slice(1),10);
+  show(hash>0&&hash<=slides.length?hash-1:0);
+}
+
+function show(index){
+  if(!slides.length)return;
+  n=(index+slides.length)%slides.length;
+  slides.forEach((slide,i)=>slide.classList.toggle("active",i===n));
+  page.textContent=`${n+1} / ${slides.length}`;
+  progress.style.width=`${(n+1)/slides.length*100}%`;
+  location.hash=n+1;
+}
+
+document.getElementById("next").onclick=()=>show(n+1);
+document.getElementById("prev").onclick=()=>show(n-1);
+document.onkeydown=event=>{
+  if(["ArrowRight"," ","PageDown"].includes(event.key))show(n+1);
+  if(["ArrowLeft","PageUp"].includes(event.key))show(n-1);
+  if(event.key==="Home")show(0);
+  if(event.key==="End")show(slides.length-1);
+};
+loadDeck().catch(error=>{
+  main.innerHTML='<section class="slide active"><h2 class="h2">Could not load content.json</h2><p class="lead">Serve this folder over HTTP, for example with <code>python3 -m http.server</code>, then open the local URL.</p></section>';
+  console.error(error);
+});
 </script>
 </body>
 </html>
